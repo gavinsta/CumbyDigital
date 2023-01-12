@@ -119,17 +119,17 @@ app.get('/api/booking', async (req: Request, res: Response) => {
 
 });
 if (process.env.NODE_ENV === 'testing') {
-  app.use(express.static(path.join(__dirname, '../../../client/build')));
+  app.use(express.static(path.join(__dirname, '../../client/build')));
 
   app.get('*', function (req: Request, res: Response) {
-    res.sendFile(path.join(__dirname, '../../../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
   });
 }
 else if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../../client/build')));
+  app.use(express.static(path.join(__dirname, '../../client/build')));
 
   app.get('*', function (req: Request, res: Response) {
-    res.sendFile(path.join(__dirname, '../../../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
   });
 }
 else if (process.env.NODE_ENV === 'development') {
