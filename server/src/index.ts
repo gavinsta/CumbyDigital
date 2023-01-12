@@ -8,6 +8,8 @@ import bodyParser from "body-parser";
 import { base64_decode, generateBookingID, readBookingsFromCSV } from "./utils/bookingManagement";
 import Stripe from 'stripe';
 
+const CUMBY_DIGITAL_VERSION = 1.1;
+
 dotenv.config();
 //if we're in production use the proper stripe key. Otherwise...
 const stripe = new Stripe(process.env.NODE_ENV == "production" ? process.env.STRIPE_SECRET_KEY! : process.env.STRIPE_SECRET_TEST_KEY!, {
@@ -55,10 +57,12 @@ app.post("/api/create-checkout-session", async (req, res) => {
 
 app.post('/api/new_order', async (req: Request, res: Response) => {
   console.log("Creating new order");
+  var exit = false;
   const { image64, customerDetails, orderSummary, stripeToken } = req.body;
   //TODO check that order is valid if it is generate a booking ID
   const bookingID = generateBookingID(5);
   const { email, firstName, lastName, businessName } = customerDetails;
+
   try {
     await stripe.customers.create({
       email: email,
@@ -77,11 +81,22 @@ app.post('/api/new_order', async (req: Request, res: Response) => {
         result: "success",
         title: "New customer created",
         bookingID: bookingID
-      }))
+      })).catch(reason => {
+        exit = true;
+        console.log(reason);
+        res.status(400).json({
+          result: "failure",
+          title: reason.raw.message
+        })
+      })
   }
   catch (err) {
-    console.log(err)
+    //console.log(err)
     res.send(err);
+    return;
+  }
+  if (exit) {
+    return;
   }
   if (image64) {
     //console.log(image);

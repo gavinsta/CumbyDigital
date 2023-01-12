@@ -109,6 +109,10 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
             setOrderStage("complete");
             setBookingID(data.bookingID);
           }
+          else {
+            checkoutError(data.title);
+
+          }
         }
         )
     }
