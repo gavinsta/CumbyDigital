@@ -9,7 +9,8 @@ import { base64_decode, generateBookingID, readBookingsFromCSV } from "./utils/b
 import Stripe from 'stripe';
 
 dotenv.config();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+//if we're in production use the proper stripe key. Otherwise...
+const stripe = new Stripe(process.env.NODE_ENV == "production" ? process.env.STRIPE_SECRET_KEY! : process.env.STRIPE_SECRET_TEST_KEY!, {
   apiVersion: '2022-11-15'
 });
 //import * as dbAccess from "./utils/databaseUtills"
@@ -118,10 +119,10 @@ app.get('/api/booking', async (req: Request, res: Response) => {
 
 });
 if (process.env.NODE_ENV === 'testing') {
-  app.use(express.static(path.join(__dirname, '../../client/build')));
+  app.use(express.static(path.join(__dirname, '../../../client/build')));
 
   app.get('*', function (req: Request, res: Response) {
-    res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../../client/build', 'index.html'));
   });
 }
 else if (process.env.NODE_ENV === 'production') {
@@ -131,9 +132,11 @@ else if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../../../client/build', 'index.html'));
   });
 }
-else if (process.env.NODE_ENV === 'staging') {
-  app.get('/', (req: Request, res: Response) => {
-    res.send(`<h1>Server is in staging mode!</h1><h2>NODE_ENV: ${process.env.NODE_ENV} <br/> DB_HOST: ${process.env.DB_HOST}</h2>`)
+else if (process.env.NODE_ENV === 'development') {
+  app.use(express.static(path.join(__dirname, '../../client/build')));
+
+  app.get('*', function (req: Request, res: Response) {
+    res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
   });
 }
 
