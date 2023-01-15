@@ -6,6 +6,7 @@ import ImageSubmission from "../components/ImageSubmission";
 import TimeSelection from "../components/TimeSelection";
 import Title from "../components/Title";
 import { Booking } from "../types/Booking";
+import { LimitedTimeOffer } from "./page-content/Content";
 const HomePage: React.FC = () => {
   const [upload, setUpload] = useState<File | null>(null)
   const [bookings, setBookings] = useState<Booking[]>([])
@@ -70,7 +71,7 @@ const HomePage: React.FC = () => {
           padding={10}>
           <Text
             textAlign={"center"}
-            color={"white"}>Located on the I-30 between Greenville and Sulfur Springs</Text>
+            color={"white"}>Located on the I-30 between Greenville and Sulphur Springs</Text>
           <AspectRatio
             ratio={16 / 6}>
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d427673.2116257351!2d-96.1208604216479!3d33.130189627889415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864bce2388ec74c7%3A0xa72f13939c9fdd4!2sThe%20Billboard%20House!5e0!3m2!1sen!2sus!4v1671916570201!5m2!1sen!2sus" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
@@ -87,58 +88,8 @@ const HomePage: React.FC = () => {
         bgAttachment={"fixed"}
         bgPosition="right"
       >
-        <Heading
-          textAlign={"center"}
-          fontSize={"8rem"}
-          fontWeight={"bold"}
-          //blendMode={"color-dodge"}
-          color="rgba(255,127,80,0.8)">
-          How does it work?
-        </Heading>
 
-
-        <Container
-          justifyContent={"center"}
-          maxW={"700px"}
-          color={"white"}
-          fontWeight={"semibold"}
-          bg={"rgba(0, 0, 0,0.7)"}
-          borderRadius="30"
-          boxShadow={"2xl"}
-          padding={10}
-          pl={50}
-          pr={50}
-
-        >
-          <Container>
-            <Text>
-              Cumby Digital is dedicated to making your advertising experience as easy as possible.
-            </Text>
-            <Spacer h={"1rem"} />
-            <Text>
-              We split up the showing time into
-            </Text>
-            <Heading
-              borderBottomWidth={5}
-              borderBottomColor={"salmon"}
-            >8 second impressions
-            </Heading>
-            <Text>
-              (450 impressions per hour).
-            </Text>
-            <Spacer h={"1rem"} />
-            <Text>
-              Simply purchase the amount of impressions <i>you</i> want!
-            </Text>
-            <Spacer h={"1rem"} />
-            <Text>
-              With a minimum purchase of 1200 impressions per month and $29.99 per image upload.
-            </Text>
-            <Text>
-              Space out your ad perfectly to catch the attention of commuters!
-            </Text></Container>
-        </Container>
-
+        <LimitedTimeOffer />
       </Box>
       <ImageSubmission
         setImageBlob={setUpload}

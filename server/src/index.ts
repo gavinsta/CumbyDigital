@@ -62,6 +62,8 @@ app.post('/api/new_order', async (req: Request, res: Response) => {
   //TODO check that order is valid if it is generate a booking ID
   const bookingID = generateBookingID(5);
   const { email, firstName, lastName, businessName } = customerDetails;
+  const { direction } = orderSummary;
+  const charge = direction === "both" ? 19800 : 9900
 
   try {
     await stripe.customers.create({
@@ -70,10 +72,11 @@ app.post('/api/new_order', async (req: Request, res: Response) => {
       source: stripeToken,
       metadata: {
         bookingID: bookingID,
+        direction: direction,
       }
     }).then(customer =>
       stripe.charges.create({
-        amount: 9900,
+        amount: charge,
         currency: "usd",
         customer: customer.id,
         capture: false,

@@ -31,15 +31,17 @@ const ImageSubmission = ({ setImageBlob }:
   return (
     <Box
       padding={10}
-      bg={"#6a1c00"}
+      bg="whiteAlpha.500"
+      bgImage="linear-gradient(rgba(0.5, 0.5, 0.5, 0.6),rgba(0.5,0.5,0.5,0.3)), url('photos/fireworks.jpg')"
+    //bg={"#6a1c00"}
     >
       <Heading textAlign={"center"}
         color={"white"}>
-        Preview
+        Image upload
       </Heading>
       <Text color={"whiteAlpha.700"}
         textAlign={"center"}>
-        View your ad below!
+        Upload your ad, and preview how it'll look on the Billboard!
       </Text>
       <Container
 

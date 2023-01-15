@@ -22,9 +22,17 @@ const CARD_ELEMENT_OPTIONS = {
 };
 function CardSection() {
   return (
-    <Box padding={5}>
+    <Box
+    >
       Credit Card Details:
-      <CardElement options={CARD_ELEMENT_OPTIONS} />
+      <Box
+        padding={5}
+        borderWidth={5}>
+
+
+        <CardElement
+          options={CARD_ELEMENT_OPTIONS} />
+      </Box>
       <Text>Please note, your card will <b>not</b> be charged until we confirm your order!</Text>
       <Spacer h={"15px"} />
       <Link
@@ -34,6 +42,7 @@ function CardSection() {
           <Text>Powered by</Text> <Icon aria-label={"stripe link"} fontSize={60} as={FaStripe} />
         </HStack>
       </Link>
+
     </Box>
   );
 };

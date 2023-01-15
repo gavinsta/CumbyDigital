@@ -2,14 +2,14 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import FormData from 'form-data';
 import CardSection from '../styled_components/CardSection';
-import { Alert, Box, Button, Center, Container, Heading, HStack, Input, Spinner, Stack, Text } from '@chakra-ui/react';
+import { Alert, Box, Button, Center, Container, Heading, HStack, Input, Select, Spinner, Stack, Text } from '@chakra-ui/react';
 import OrderSummary from '../styled_components/OrderSummary';
 import { Booking, Order } from '../../types/Booking';
 import fs from 'fs'
 import { convertToBase64 } from '../../utils/misc';
 import { Navigate } from 'react-router-dom';
 export default function CheckoutForm({ upload, bookings }: { upload: File | null, bookings: Booking[] }) {
-  const defaultFormFields = {
+  const defaultCustomerInfoFields = {
     email: '',
     firstName: '',
     lastName: '',
@@ -18,7 +18,8 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
   const [isThrottled, setThrottled] = useState<boolean>(false);
   const [secondsWaiting, setSecondsWaiting] = useState(0);
 
-  const [formFields, setFormFields] = useState(defaultFormFields)
+  const [customerInfoFields, setCustomerInfoFields] = useState(defaultCustomerInfoFields)
+  const [direction, setDirection] = useState<string>("")
   const [alertText, setAlertText] = useState<string>();
   const [orderStage, setOrderStage] = useState<"checkout" | "loading" | "complete">("checkout");
   const [bookingID, setBookingID] = useState<string>("")
@@ -42,7 +43,7 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    setFormFields({ ...formFields, [name]: value })
+    setCustomerInfoFields({ ...customerInfoFields, [name]: value })
   }
 
   function checkoutError(errorText: string) {
@@ -95,11 +96,13 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
         },
         body: JSON.stringify({
           //bookingSegments: bookings,
-          customerDetails: formFields,
+          customerDetails: customerInfoFields,
           image64: imageStream,
           stripeToken: tokenResult.token.id,
           //blank for now
-          orderSummary: {}
+          orderSummary: {
+            direction: direction
+          }
         })
       })
         .then(response => response.json())
@@ -165,7 +168,17 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
             placeholder='Your business (optional)'
             onChange={handleChange}
           />
+          <Select placeholder='Billboard Direction'
+            required
+            onChange={(e) => {
+              setDirection(e.target.value)
+            }}>
+            <option value='east'>East Facing</option>
+            <option value='west'>West Facing</option>
+            <option value='both'>Both Directions</option>
+          </Select>
           <CardSection />
+
           <Center>
             <Button
               colorScheme={"blue"}
