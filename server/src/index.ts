@@ -60,7 +60,10 @@ app.post('/api/new_order', async (req: Request, res: Response) => {
   var exit = false;
   const { image64, customerDetails, orderSummary, stripeToken } = req.body;
   //TODO check that order is valid if it is generate a booking ID
-  const bookingID = generateBookingID(5);
+  let bookingID = generateBookingID(5);
+  if (process.env.NODE_ENV === "testing") {
+    bookingID = bookingID + "_TESTING"
+  }
   const { email, firstName, lastName, businessName } = customerDetails;
   const { direction } = orderSummary;
   const charge = direction === "both" ? 19800 : 9900
