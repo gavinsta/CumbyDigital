@@ -15,6 +15,7 @@ dotenv.config();
 const stripe = new Stripe(process.env.NODE_ENV == "production" ? process.env.STRIPE_SECRET_KEY! : process.env.STRIPE_SECRET_TEST_KEY!, {
   apiVersion: '2022-11-15'
 });
+console.log(`Environment: ${process.env.NODE_ENV}`)
 //import * as dbAccess from "./utils/databaseUtills"
 interface BookingForm {
   email: string,
