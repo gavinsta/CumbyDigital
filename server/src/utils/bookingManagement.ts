@@ -1,6 +1,7 @@
 import fs, { appendFileSync } from "fs";
 import { Order } from "../types/Booking"
 import { parse } from "csv-parse";
+const bookingPath = process.env.BOOKING_PATH;
 export function addBookingToCSV(booking: Order) {
   booking.segments.forEach((seg) => {
     const csvRow = `${seg.date.toDateString()},${seg.date.getHours()},${seg.impressionsBooked},${booking.bookingID}\n`;
@@ -45,7 +46,7 @@ export function readBookingsFromCSV(): Promise<{ date: Date, impressions: number
 
 export function base64_decode(base64Image: string, fileName: string) {
   const buffer = Buffer.from(base64Image.split(",")[1], "base64");
-  fs.writeFileSync("../../booking_images/" + fileName, buffer, "base64");
+  fs.writeFileSync(bookingPath + fileName, buffer, "base64");
   console.log('******** File created from base64 encoded string ********');
 }
 

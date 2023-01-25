@@ -16,6 +16,7 @@ const stripe = new Stripe(process.env.NODE_ENV == "production" ? process.env.STR
   apiVersion: '2022-11-15'
 });
 console.log(`Environment: ${process.env.NODE_ENV}`)
+console.log(`Writing images to: ${process.env.BOOKING_PATH}`)
 //import * as dbAccess from "./utils/databaseUtills"
 interface BookingForm {
   email: string,
