@@ -45,7 +45,7 @@ export function readBookingsFromCSV(): Promise<{ date: Date, impressions: number
 
 export function base64_decode(base64Image: string, fileName: string) {
   const buffer = Buffer.from(base64Image.split(",")[1], "base64");
-  fs.writeFileSync(fileName, buffer, "base64");
+  fs.writeFileSync("../../booking_images/" + fileName, buffer, "base64");
   console.log('******** File created from base64 encoded string ********');
 }
 

@@ -77,6 +77,7 @@ app.post('/api/new_order', async (req: Request, res: Response) => {
       metadata: {
         bookingID: bookingID,
         direction: direction,
+        businessName: businessName,
       }
     }).then(customer =>
       stripe.charges.create({
@@ -108,10 +109,8 @@ app.post('/api/new_order', async (req: Request, res: Response) => {
   if (image64) {
     //console.log(image);
     var fileExt = image64.substring("data:image/".length, image64.indexOf(";base64"));
-    var imageName = `booking_images/${bookingID}_${firstName}_${lastName}.${fileExt}`;
+    var imageName = `${bookingID}_${firstName}_${lastName}.${fileExt}`;
     base64_decode(image64, imageName);
-
-    //var file = new File([image], imageName, { type: "image/png", lastModified: new Date().getTime() })
   }
 });
 /*
