@@ -163,7 +163,7 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
             onChange={handleChange}
           />
           <Input
-            required={true}
+
             name='businessName'
             placeholder='Your business (optional)'
             onChange={handleChange}
@@ -173,8 +173,8 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
             onChange={(e) => {
               setDirection(e.target.value)
             }}>
-            <option value='east'>East Facing</option>
-            <option value='west'>West Facing</option>
+            <option value='east'>East Facing (Westbound Traffic)</option>
+            <option value='west'>West Facing (Eastbound Traffic)</option>
             <option value='both'>Both Directions</option>
           </Select>
           <CardSection />

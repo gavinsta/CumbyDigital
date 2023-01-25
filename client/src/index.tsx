@@ -7,7 +7,7 @@ import theme from './theme';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-const testing = true;
+const testing = false;
 const stripePK = testing ? "pk_test_KBiqNpseXjnKYpbwJIp7jj2r" : "pk_live_kmyrC0tniX7VdVIpYSFpdiDb";
 const stripePromise = loadStripe(stripePK)
 const root = ReactDOM.createRoot(
