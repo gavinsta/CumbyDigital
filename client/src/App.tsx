@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import Layout from './pages/Layout';
 import NoPage from './pages/NoPage';
 import OrderCompletePage from './pages/OrderCompletePage';
+import BookingsPage from './pages/BookingsPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Navigate to="/home" />} />
+          <Route path="bookings" element={<BookingsPage />} />
           <Route path="home" element={<HomePage />} />
           <Route path="success" element={<OrderCompletePage />} />
           <Route path="*" element={<NoPage />} />

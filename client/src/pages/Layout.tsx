@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
-import React from "react";
-import { Box, Button, ButtonGroup, HStack, Link, Spacer } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, ButtonGroup, HStack, Input, Link, Spacer, Stack, useDisclosure } from "@chakra-ui/react";
 
-function NavMenu() {
+function StickyBottomMenu() {
   return (
-    <Box
+    <HStack
+      width={"100%"}
       //justifyContent={"center"}
       marginRight={0}
       //alignContent={"end"}
@@ -15,14 +16,24 @@ function NavMenu() {
       position={"fixed"}
       zIndex="sticky"
     >
-      <Link href="mailto:info@cumbydigital.com">
+
+      <Spacer />
+      <Link href="mailto:info@cumbydigital.com"
+        _hover={{}}
+      >
         <Button
           size={"lg"}
+          _hover={{
+
+            "backgroundColor": "rgba(255,255,255,0.4)"
+          }}
           colorScheme={"fall"}
         >
-          More questions? Contact Us!
+          More questions?<br />Contact Us!
         </Button>
       </Link>
+
+
 
       {/*
         <Button>
@@ -32,18 +43,59 @@ function NavMenu() {
           FAQ
         </Button>*/
       }
-
-      <Spacer />
-    </Box>
+    </HStack>
   )
 }
+
 const Layout = () => {
   return (
     <Box height={"100vh"}
     >
-      {<NavMenu />
-      }
+
       <Outlet />
+      {<StickyBottomMenu />
+      }
+      <HStack
+        width={"100%"}
+        //justifyContent={"center"}
+        marginRight={0}
+        //alignContent={"end"}
+        padding={3}
+        //bg={"blackAlpha.500"}
+        top={0}
+        left={0}
+        position={"fixed"}
+        zIndex="sticky">
+        <Link
+          _hover={{
+
+          }}
+          textDecorationColor={"white"}
+          href="/bookings">
+          <Button size={"md"}
+            _hover={{
+
+              "backgroundColor": "rgba(255,255,255,0.4)"
+            }}
+            variant="solid"
+            colorScheme="fall">
+            Booking Details
+          </Button>
+        </Link>
+        <Link
+          _hover={{ "textDecorationColor": "white" }}
+          textDecorationColor={"white"}
+          href="/home">
+          <Button size={"md"}
+            _hover={{
+
+              "backgroundColor": "rgba(255,255,255,0.4)"
+            }}
+            colorScheme={"fall"}>
+            Main
+          </Button>
+        </Link>
+      </HStack>
     </Box>
   )
 }

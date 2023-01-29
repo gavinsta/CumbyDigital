@@ -88,7 +88,7 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
       imageStream = await convertToBase64(upload);
     }
     try {
-      const result = await fetch(`/api/new_order`, {
+      const result = await fetch(`/api/booking`, {
         method: "POST",
         // enctype:"multipart/form-data",
         headers: {
@@ -101,7 +101,10 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
           stripeToken: tokenResult.token.id,
           //blank for now
           orderSummary: {
-            direction: direction
+            direction: direction,
+            specialCode: "1350for99",
+            //NOTE for now pass a blank array of segments
+            segments: []
           }
         })
       })
@@ -114,7 +117,6 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
           }
           else {
             checkoutError(data.title);
-
           }
         }
         )
