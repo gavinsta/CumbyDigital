@@ -5,7 +5,6 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, Al
 function StickyBottomMenu() {
   return (
     <HStack
-      width={"100%"}
       //justifyContent={"center"}
       marginRight={0}
       //alignContent={"end"}
@@ -17,7 +16,6 @@ function StickyBottomMenu() {
       zIndex="sticky"
     >
 
-      <Spacer />
       <Link href="mailto:info@cumbydigital.com"
         _hover={{}}
       >
@@ -56,7 +54,6 @@ const Layout = () => {
       {<StickyBottomMenu />
       }
       <HStack
-        width={"100%"}
         //justifyContent={"center"}
         marginRight={0}
         //alignContent={"end"}
