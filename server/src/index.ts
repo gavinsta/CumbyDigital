@@ -12,7 +12,7 @@ import imageRouter, { getAllBookingImagePaths } from "./routers/imageManagement"
 import { Order } from "./types/Order";
 
 
-const CUMBY_DIGITAL_VERSION = process.env.VERSION;
+const CUMBY_DIGITAL_VERSION = '1.3';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 //start up checks
 if (!ADMIN_PASSWORD) {

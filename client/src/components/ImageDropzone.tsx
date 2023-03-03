@@ -2,9 +2,11 @@ import { useCallback } from 'react';
 import { useDropzone, Accept } from 'react-dropzone';
 import { Center, useColorModeValue, Icon, Text, Stack } from '@chakra-ui/react';
 import { AiFillFileAdd } from 'react-icons/ai';
+import useCheckMobileScreen from '../hooks/useCheckMobileScreen';
 
 export default function ImageDropzone({ onFileAccepted }:
   { onFileAccepted: (file: File) => void }) {
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     onFileAccepted(acceptedFiles[0]);
   }, [onFileAccepted]);
@@ -17,7 +19,7 @@ export default function ImageDropzone({ onFileAccepted }:
     },
     maxFiles: 1, multiple: false,
   });
-
+  const isMobile = useCheckMobileScreen();
   const dropText = isDragActive ? 'Drop the files here ...' : 'Drag PNG or JPEG images here, or click to select files';
 
   const activeBg = useColorModeValue('whiteAlpha.300', 'blackAlpha.600');
@@ -28,7 +30,7 @@ export default function ImageDropzone({ onFileAccepted }:
 
   return (
     <Center
-      h={"80%"}
+      h={isMobile ? "30%" : "80%"}
       color={"white"}
       p={10}
       cursor="pointer"
@@ -46,7 +48,7 @@ export default function ImageDropzone({ onFileAccepted }:
       <input {...getInputProps()} />
       <Icon as={AiFillFileAdd} mr={2} fontSize={"3rem"} />
       <Stack>
-        <Text>{dropText}</Text>
+        {isMobile ? <Text>Click here to select a file</Text> : <Text>{dropText}</Text>}
         <Text>Maximum file size: 10MB</Text>
       </Stack>
 

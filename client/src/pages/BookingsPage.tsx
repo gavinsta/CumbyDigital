@@ -2,6 +2,7 @@ import { useDisclosure, Button, AlertDialog, AlertDialogOverlay, AlertDialogCont
 import { url } from "inspector";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useCheckMobileScreen from "../hooks/useCheckMobileScreen";
 interface BookingSummary {
   bookingID: string,
   date: Date,
@@ -18,6 +19,7 @@ export default function BookingsPage() {
   const [allBookings, setAllBookings] = useState<BookingSummary[]>([]);
   const [password, setPassword] = useState<string>("");
   const toast = useToast();
+  const isMobile = useCheckMobileScreen()
   async function findBookings(password: string, bookingID: string) {
     await fetch(`/api/booking/${encodeURIComponent(bookingID)}`, {
       method: "GET",
@@ -173,9 +175,8 @@ export default function BookingsPage() {
         placeholder="Booking ID" />
       <Button onClick={async () => {
         await viewBooking();
-
       }}>
-        Find My Booking
+        Find {isMobile ? '' : 'My Booking'}
       </Button>
     </HStack>
     <Box bg={"blackAlpha.400"} padding={3} >

@@ -1,4 +1,5 @@
 import { Container, Heading, Spacer, Text } from "@chakra-ui/react";
+import useCheckMobileScreen from "../../hooks/useCheckMobileScreen";
 
 export function HowItWorks() {
   return (
@@ -59,30 +60,31 @@ export function HowItWorks() {
 }
 
 export function LimitedTimeOffer() {
+  const isMobile = useCheckMobileScreen()
   return (<>
     <Heading
       textAlign={"center"}
-      fontSize={"8rem"}
+      fontSize={isMobile ? "60px" : "8rem"}
       fontWeight={"bold"}
       //blendMode={"color-dodge"}
       color="rgba(255,127,80,0.8)">
       How does it work?
     </Heading>
 
-
     <Container
       justifyContent={"center"}
       maxW={"700px"}
       color={"white"}
       fontWeight={"semibold"}
-      bg={"rgba(0, 0, 0,0.7)"}
+      bg={isMobile ? "" : "rgba(0, 0, 0,0.7)"}
       borderRadius="30"
       boxShadow={"2xl"}
-      padding={10}
-      pl={50}
-      pr={50}
+      padding={isMobile ? 5 : 10}
+      pl={isMobile ? "" : 50}
+      pr={isMobile ? "" : 50}
 
     >
+
       <Container>
 
         <Heading
@@ -91,15 +93,15 @@ export function LimitedTimeOffer() {
           borderBottomColor={"salmon"}
         >Limited Time Offer!
         </Heading>
-
         <Spacer h={"1rem"} />
-        <Text fontSize={20}>
+        <Text fontSize={isMobile ? 30 : 20}>
           Right now, you can get 1350 impressions a day for just $99!
         </Text>
         <Spacer h={"1rem"} />
-        <Text>
+        <Text fontSize={isMobile ? 20 : 16}>
           Simply upload your ad below, enter your information and we'll email you with an invoice shortly!
-        </Text></Container>
+        </Text>
+      </Container>
     </Container>
   </>)
 }

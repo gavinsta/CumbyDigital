@@ -1,19 +1,21 @@
-import { Box, Button, Center, Container, Heading, HStack, Image, Input, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Center, Container, Heading, HStack, Image, Input, Text } from "@chakra-ui/react";
 import { FormEvent, useState } from "react";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import ImageDropzone from "./ImageDropzone";
 import * as fs from "fs";
+import useCheckMobileScreen from "../hooks/useCheckMobileScreen";
 const ASPECT_RATIO = 0.26666666666
 const ImageSubmission = ({ setImageBlob }:
   {
     setImageBlob: (imageURI: File | null) => void,
   }) => {
-
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageStyle, setImageStyle] = useState<"stretched" | "fit">("stretched");
-  const { width } = useWindowDimensions();
-  const demoWidth = width * 0.8
-
+  const { width, height } = useWindowDimensions();
+  const isMobile = useCheckMobileScreen();
+  const demoWidth = isMobile ? width * 1.4 : width * 0.8
+  /**Used for mobile viewing */
+  const demoHeight = height * 0.6
   function getImageStyle() {
     if (imageStyle == "stretched") {
       return {
@@ -30,8 +32,13 @@ const ImageSubmission = ({ setImageBlob }:
 
   return (
     <Box
-      padding={10}
+      justifyContent={'center'}
+      padding={isMobile ? 0 : 10}
+      pt={isMobile ? 20 : ''}
+      pb={isMobile ? 20 : ''}
+      h={isMobile ? "100%" : ""}
       bg="whiteAlpha.500"
+      bgAttachment={isMobile ? 'fixed' : ""}
       bgImage="linear-gradient(rgba(0.5, 0.5, 0.5, 0.6),rgba(0.5,0.5,0.5,0.3)), url('photos/fireworks.jpg')"
     //bg={"#6a1c00"}
     >
@@ -41,80 +48,106 @@ const ImageSubmission = ({ setImageBlob }:
       </Heading>
       <Text color={"whiteAlpha.700"}
         textAlign={"center"}>
-        Upload your ad, and preview how it'll look on the Billboard!
+        Upload your ad, and preview how it'll look on the Billboard! (Rotate your phone)
       </Text>
-      <Container
-
-        bg="blackAlpha.600"
-        borderRadius={15}
-        borderWidth={10}
-        borderColor={"blackAlpha.800"}
-        boxShadow={"2xl"}
-        maxWidth={demoWidth * 1.01}
-        minW={demoWidth * 1.01}
-        minH={demoWidth * 1.01 * ASPECT_RATIO}
-        maxHeight={demoWidth * 1.01 * ASPECT_RATIO}
-        //objectFit={"contain"}
-        justifyContent={"center"}
-        display="flex"
-        align-items="center"
-      >
-        {imagePreview ?
-          <Image
-            padding={2}
-            alignSelf={"center"}
-            style={getImageStyle()}
-            src={imagePreview}
-          />
-          :
-          <Box
-            alignSelf={"center"}
-            display={"flex"}
-            justifyContent={"center"}>
-            <ImageDropzone onFileAccepted={(file: File) => {
-              setImageBlob(file);
-              setImagePreview(URL.createObjectURL(file));
-              console.log(URL.createObjectURL(file));
-            }} />
-          </Box>
-        }
-
-      </Container>
-      {imagePreview ? <HStack
-        //display={"flex"}
-        width={"100%"}
-        justifyContent={"center"}
-      >  <Button
-        width={"50%"}
-        colorScheme={"fall"}
-        onClick={() => {
-          if (imageStyle == "fit") {
-            setImageStyle("stretched")
-          }
-          else if (imageStyle == "stretched") {
-            setImageStyle("fit")
-          }
-        }
-        }
-      >
-          Format: {imageStyle}
-        </Button>
-
-        <Button
-          width={"50%"}
-          colorScheme={"red"}
-
-          onClick={() => {
-            setImageBlob(null)
-            setImagePreview(null)
-          }}
+      <Box minH={demoWidth * 1.3}>
+        <Container
+          style={isMobile ? { transform: 'rotate(90deg) translate(15em,5em)' } : {}}
+          bg="blackAlpha.600"
+          borderRadius={15}
+          borderWidth={10}
+          borderColor={"blackAlpha.800"}
+          boxShadow={"2xl"}
+          maxWidth={demoWidth * 1.01}
+          minW={demoWidth * 1.01}
+          minH={demoWidth * ASPECT_RATIO * 1.01}
+          maxHeight={demoWidth * ASPECT_RATIO * 1.01}
+          //objectFit={"contain"}
+          justifyContent={"center"}
+          display="flex"
+          align-items="center"
         >
-          Clear
-        </Button></HStack>
+          {isMobile ?
+            <>
+              {imagePreview ?
+                <Image
+
+                  padding={2}
+                  alignSelf={"center"}
+                  style={getImageStyle()}
+                  src={imagePreview}
+                />
+                : <Text color="white">This side up</Text>}
+            </> : <>{imagePreview ?
+              <Image
+                padding={2}
+                alignSelf={"center"}
+                style={getImageStyle()}
+                src={imagePreview}
+              />
+              :
+              <Box
+                alignSelf={"center"}
+                display={"flex"}
+                justifyContent={"center"}>
+                <ImageDropzone onFileAccepted={(file: File) => {
+                  setImageBlob(file);
+                  setImagePreview(URL.createObjectURL(file));
+                  console.log(URL.createObjectURL(file));
+                }} />
+              </Box>
+            }</>}
+        </Container>
+      </Box>
+
+      {imagePreview ? <Center>
+        <ButtonGroup variant={'solid'} w={'100%'}
+          pl={isMobile ? 50 : 0}
+          orientation={isMobile ? "vertical" : "horizontal"}
+          //display={"flex"}
+          width={"100%"}
+          justifyContent={"center"}
+        >  <Button
+          width={"50%"}
+          colorScheme={"fall"}
+          onClick={() => {
+            if (imageStyle == "fit") {
+              setImageStyle("stretched")
+            }
+            else if (imageStyle == "stretched") {
+              setImageStyle("fit")
+            }
+          }
+          }
+        >
+            Format: {imageStyle}
+          </Button>
+
+          <Button
+            width={"50%"}
+            colorScheme={"red"}
+
+            onClick={() => {
+              setImageBlob(null)
+              setImagePreview(null)
+            }}
+          >
+            Clear
+          </Button></ButtonGroup></Center>
         :
         <></>}
+      {isMobile ?
+        <Box
+          alignSelf={"center"}
+          display={"flex"}
+          justifyContent={"center"}>
+          <ImageDropzone onFileAccepted={(file: File) => {
+            setImageBlob(file);
+            setImagePreview(URL.createObjectURL(file));
+            console.log(URL.createObjectURL(file));
+          }} />
+        </Box> : <></>}
     </Box>
-
   );
 }
 
