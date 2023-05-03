@@ -73,6 +73,7 @@ if (process.env.NODE_ENV === 'testing') {
       direction: "both",
       bookingID: `TEST_${version}`,
       status: "pending",
+      weeks: 8,
       segments: []
     }
     const success = await addBookingToCSV(order);

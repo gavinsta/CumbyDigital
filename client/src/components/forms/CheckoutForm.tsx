@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import FormData from 'form-data';
 import CardSection from '../styled_components/CardSection';
-import { Alert, Box, Button, Center, Container, Heading, HStack, Input, Select, Spinner, Stack, Text } from '@chakra-ui/react';
+import { Alert, Box, Button, Center, Container, Heading, HStack, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Spinner, Stack, Text } from '@chakra-ui/react';
 import OrderSummary from '../styled_components/OrderSummary';
 import { Booking, Order } from '../../types/Booking';
 import fs from 'fs'
@@ -19,6 +19,7 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
   const [secondsWaiting, setSecondsWaiting] = useState(0);
 
   const [customerInfoFields, setCustomerInfoFields] = useState(defaultCustomerInfoFields)
+  const [weeks, setWeeks] = useState<number>(1);
   const [direction, setDirection] = useState<string>("")
   const [alertText, setAlertText] = useState<string>();
   const [orderStage, setOrderStage] = useState<"checkout" | "loading" | "complete">("checkout");
@@ -102,6 +103,7 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
           //blank for now
           orderSummary: {
             direction: direction,
+            weeks: weeks,
             specialCode: "1350for99",
             //NOTE for now pass a blank array of segments
             segments: []
@@ -134,6 +136,7 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
       maxW={"600px"}
     >
       <Stack spacing={10}>
+
         {orderStage == "loading" ?
           <LoadingScreen /> : <></>}
         {orderStage == "complete" ? <CheckoutComplete bookingID={bookingID} /> : <></>}
@@ -179,6 +182,23 @@ export default function CheckoutForm({ upload, bookings }: { upload: File | null
             <option value='west'>West Facing (Eastbound Traffic)</option>
             <option value='both'>Both Directions</option>
           </Select>
+          <Stack alignItems='left'>
+            <Text>Number of Weeks (minimum 1)</Text>
+            <NumberInput min={1} defaultValue={1}>
+              <NumberInputField
+                //defaultValue={1}
+                onChange={(e) => {
+                  setWeeks(parseInt(e.target.value))
+                }}
+                value={weeks}
+              />
+              <NumberInputStepper>
+                <NumberIncrementStepper onClick={() => setWeeks(weeks + 1)} />
+                <NumberDecrementStepper onClick={() => setWeeks(weeks - 1)} />
+              </NumberInputStepper>
+            </NumberInput>
+          </Stack>
+
           <CardSection />
 
           <Center>

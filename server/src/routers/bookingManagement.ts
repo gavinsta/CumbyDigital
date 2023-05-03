@@ -63,9 +63,11 @@ interface BookingSummary {
   lastName: string,
   businessName?: string,
   direction: "east" | "west" | "both",
+
   segments: string | number,
   bookingStatus: "pending" | "confirmed" | "rejected",
-  specialCode?: string
+  specialCode?: string,
+  weeks: string | number,
 }
 let bookings: BookingSummary[] = []
 //initialize the array on startup
@@ -100,7 +102,7 @@ router.post('/', async (req: Request, res: Response) => {
     bookingID = bookingID + "_TESTING"
   }
   const { email, firstName, lastName, businessName } = customerDetails;
-  const { direction, specialCode, segments } = orderSummary;
+  const { direction, specialCode, segments, weeks } = orderSummary;
   const charge = direction === "both" ? 19800 : 9900
   const order: Order = {
     date: date,
@@ -110,6 +112,7 @@ router.post('/', async (req: Request, res: Response) => {
     bookingID: bookingID,
     direction: direction,
     status: "pending",
+    weeks: weeks ? weeks : 1,
     segments: segments,
     specialCode: specialCode
   }
@@ -163,7 +166,7 @@ router.post('/', async (req: Request, res: Response) => {
         phases: [
           {
             items: [{ price: price, quantity: 1 }],
-            iterations: 48,
+            iterations: weeks,
           },
         ],
       });
@@ -300,7 +303,7 @@ router.post("/checkout-session", async (req, res) => {
   res.json({ id: session.id });
 });
 function createRowFromBookingSummary(booking: BookingSummary) {
-  return `${booking.bookingID},${booking.date},${booking.email},${booking.firstName},${booking.lastName},${booking.businessName},${booking.direction},${booking.segments},${booking.bookingStatus},${booking.specialCode}`;
+  return `${booking.bookingID},${booking.date},${booking.email},${booking.firstName},${booking.lastName},${booking.businessName},${booking.direction},${booking.segments},${booking.bookingStatus},${booking.specialCode},${booking.weeks}`;
 }
 export async function addBookingToCSV(order: Order): Promise<boolean> {
   const summary: BookingSummary = {
@@ -312,7 +315,8 @@ export async function addBookingToCSV(order: Order): Promise<boolean> {
     direction: order.direction,
     segments: order.segments.length,
     bookingStatus: order.status,
-    specialCode: order.specialCode
+    specialCode: order.specialCode,
+    weeks: order.weeks,
   }
   //TODO add booking segments
   /*
@@ -391,7 +395,8 @@ export async function readBookingsFromCSV() {
       direction: row[6],
       segments: Number(row[7]),
       bookingStatus: row[8],
-      specialCode: row[9]
+      specialCode: row[9],
+      weeks: Number(row[10]),
     }
     bookings.push(booking)
   }

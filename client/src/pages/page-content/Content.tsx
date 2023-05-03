@@ -95,7 +95,7 @@ export function LimitedTimeOffer() {
         </Heading>
         <Spacer h={"1rem"} />
         <Text fontSize={isMobile ? 30 : 20}>
-          Right now, you can get 1350 impressions a day for just $99!
+          Right now, you can get 1350 impressions a day for just $99 a week per direction!
         </Text>
         <Spacer h={"1rem"} />
         <Text fontSize={isMobile ? 20 : 16}>

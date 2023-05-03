@@ -58,7 +58,7 @@ const OrderSummary = ({ bookings }:
             borderRadius={5}
           >
             <Text fontWeight={"black"} color="orange.500"> Limited Time offer!</Text>
-            Get 1350 impressions a day for $99 a week!
+            Get 1350 impressions a day for just $99 a week per direction!
             <Text>Sign up now!</Text>
 
           </Box>}
