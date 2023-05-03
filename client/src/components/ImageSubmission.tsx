@@ -42,15 +42,17 @@ const ImageSubmission = ({ setImageBlob }:
       bgImage="linear-gradient(rgba(0.5, 0.5, 0.5, 0.6),rgba(0.5,0.5,0.5,0.3)), url('photos/fireworks.jpg')"
     //bg={"#6a1c00"}
     >
-      <Heading textAlign={"center"}
-        color={"white"}>
-        Image upload
-      </Heading>
-      <Text color={"whiteAlpha.700"}
-        textAlign={"center"}>
-        Upload your ad, and preview how it'll look on the Billboard! (Rotate your phone)
-      </Text>
-      <Box minH={demoWidth * 1.3}>
+
+      <Box minH={isMobile ? demoWidth * 1.3 : demoWidth * ASPECT_RATIO}>
+
+        <Heading textAlign={"center"}
+          color={"white"}>
+          Image upload
+        </Heading>
+        <Text color={"whiteAlpha.700"}
+          textAlign={"center"}>
+          Upload your ad, and preview how it'll look on the Billboard! {isMobile ? "(Rotate your phone)" : ''}
+        </Text>
         <Container
           style={isMobile ? { transform: 'rotate(90deg) translate(15em,5em)' } : {}}
           bg="blackAlpha.600"
