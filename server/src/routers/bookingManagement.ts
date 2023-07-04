@@ -222,7 +222,7 @@ router.post('/admin-edit', async (req: Request, res: Response) => {
       const changes: BookingSummary[] = req.body.bookings;
       const rows = changes.map(createRowFromBookingSummary);
 
-      const header = "Booking ID,Date,Email,First Name,Last Name,Business Name,Direction,No. of segments,Booking Status,Special Code"
+      const header = "Booking ID,Date,Email,First Name,Last Name,Business Name,Direction,No. of segments,Booking Status,Special Code,Weeks"
       try {
         const writesuccess = await writeCSV("bookingOrders.csv", header, rows);
         if (writesuccess) {
